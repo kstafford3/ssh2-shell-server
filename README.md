@@ -1,13 +1,21 @@
 # SSH2 Shell Server
 ## Get an [ssh2](https://www.npmjs.com/package/ssh2) server up-and-running in minutes.
 
+[![npm version](https://badge.fury.io/js/ssh2-shell-server.svg)](https://www.npmjs.com/package/ssh2-shell-server)
 [![Build Status](https://travis-ci.org/kstafford3/ssh2-shell-server.svg?branch=mater)](https://travis-ci.org/kstafford3/ssh2-shell-server)
 
+## Install
+```
+npm install ssh2-shell-server
+```
+
+## Implement
 ```javascript
 const fs = require('fs');
 const { ShellServer, Authenticators } = require('ssh2-shell-server');
 
 const PORT = 5151;
+// assuming you've generated host keys at ./test_keys/test_key
 const keyFile = fs.readFileSync('./test_keys/test_key');
 const server = new ShellServer({
   hostKeys: [ keyFile ],
