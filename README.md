@@ -25,4 +25,9 @@ server.listen().then(() => {
   console.log(`Listening on port ${PORT}...`);
 });
 ```
-See [examples](ssh2-shell-server/examples) for more working source code
+See [examples](/examples) for more working source code
+
+---
+
+Copyright 2017, Kyle Stafford (MIT License).
+
