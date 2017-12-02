@@ -1,10 +1,14 @@
 {
   "name": "ssh2-shell-server",
   "version": "0.0.1",
-  "description": "A wrapper for ssh2.",
+  "description": "A wrapper for ssh2 with an eye toward interactive shells.",
   "main": "lib/index",
   "scripts": {
     "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kstafford3/ssh2-shell-server.git"
   },
   "author": "kstafford3",
   "license": "MIT",
