@@ -18,7 +18,7 @@ describe('Authenticators', function() {
         method: 'not-publickey',
         key: {},
       };
-      const authenticator = Authenticators.authenticateByPublicKey(() => true, () => true);
+      const authenticator = Authenticators.authenticateByPublicKey({ validate: () => true, verify: () => true });
       authenticator(ctx).should.eventually.equal(false);
     });
     it('should resolve to true when validating (not verifying signature) when validate returns true', function() {
@@ -28,7 +28,7 @@ describe('Authenticators', function() {
       };
       const validate = sinon.spy(() => true);
       const verify = sinon.spy(() => true);
-      const authenticator = Authenticators.authenticateByPublicKey(validate, verify);
+      const authenticator = Authenticators.authenticateByPublicKey({ validate, verify });
       authenticator(ctx).should.eventually.equal(true);
       validate.should.be.calledOnce;
       verify.should.not.be.called;
@@ -39,12 +39,13 @@ describe('Authenticators', function() {
         signature: 'any',
         key: {},
       };
-      const authenticator = Authenticators.authenticateByPublicKey(() => true, () => true);
+      const authenticator = Authenticators.authenticateByPublicKey({ validate: () => true, verify: () => true });
       authenticator(ctx).should.be.rejected;
     });
     it('should pass the public key\'s algorithm and data to validate', function() {
       const ctx = {
         method: 'publickey',
+        username: 'alice',
         key: {
           algo: publicKey.fulltype,
           data: publicKey.public,
@@ -52,9 +53,9 @@ describe('Authenticators', function() {
       };
       const validate = sinon.spy((algorithm, data) => true);
       const verify = sinon.spy(() => true);
-      const authenticator = Authenticators.authenticateByPublicKey(validate, verify);
+      const authenticator = Authenticators.authenticateByPublicKey({ validate, verify });
       authenticator(ctx).should.eventually.equal(true);
-      validate.should.be.calledWith(ctx.key.algo, ctx.key.data);
+      validate.should.be.calledWith(ctx.username, ctx.key.algo, ctx.key.data);
       verify.should.not.be.called;
     });
   });

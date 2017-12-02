@@ -28,7 +28,7 @@ We provide an example `checkPassword(username, password)` to get you started. (T
 ### Authenticate with a Public Key
 To use this method, you must provide your public key via the environment variable `$USER_PUBLIC_KEY`.
 
-Provide two methods to validate and verify public keys. Validation takes in the user-provided raw public key and asserts that the server will accept it.
-Verification takes in a verifier determined by the user's key and the signature provided by the user.
+Provide two methods to validate and verify public keys. Validation takes in the user-provided username and raw public key and asserts that the server will accept it.
+Verification takes in the username, a verifier determined by the user's key, and the signature provided by the user.
 
 We provide an example implementation that validates and verifies the login based on `process.env.USER_PUBLIC_KEY`.

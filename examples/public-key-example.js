@@ -18,7 +18,7 @@ const server = new ShellServer({
   hostKeys: [ keyFile ],
   port: PORT,
 },
-Authenticators.authenticateByPublicKey(validate, verify));
+Authenticators.authenticateByPublicKey({ validate, verify }));
 
 // Authenticators.authenticateByPassword(checkPassword)); // Alternative authentication
 
@@ -61,10 +61,10 @@ server.listen().then(() => {
   console.log(`Listening on port ${PORT}...`);
 });
 
-function validate(algorithm, data) {
+function validate(username, algorithm, data) {
   return (algorithm === userPublicKey.fulltype && buffersEqual(data, userPublicKey.public));
 }
 
-function verify(verifier, signature) {
+function verify(username, verifier, signature) {
   return verifier.verify(userPublicKey.publicOrig, signature);
 }
