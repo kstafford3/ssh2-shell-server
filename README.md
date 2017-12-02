@@ -1,6 +1,7 @@
 # SSH2 Shell Server
+## Get an [ssh2](https://www.npmjs.com/package/ssh2) server up-and-running in minutes.
 
-Get an [ssh2](https://www.npmjs.com/package/ssh2) server up-and-running in minutes.
+[![Build Status](https://travis-ci.org/kstafford3/ssh2-shell-server.svg?branch=mater)](https://travis-ci.org/kstafford3/ssh2-shell-server)
 
 ```javascript
 const fs = require('fs');
