@@ -1,6 +1,6 @@
 {
   "name": "ssh2-shell-server",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A wrapper for ssh2 with an eye toward interactive shells.",
   "main": "lib/index",
   "scripts": {
