@@ -7,9 +7,11 @@ const keyFile = fs.readFileSync('./test_keys/test_key');
 const server = new ShellServer({
   hostKeys: [ keyFile ],
   port: PORT,
-}, Authenticators.authenticateAny());
+});
 
-server.on('session-created', (session) => {
+server.registerAuthenticator(new Authenticators.AuthenticateAny());
+
+server.on('session-created', ({client, session}) => {
   session.on('stream-initialized', (stream) => {
     stream.write('Welcome to the server!\r\n');
     stream.write('Good talk, see you later.\r\n');
