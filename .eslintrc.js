@@ -34,5 +34,7 @@ module.exports = {
     'operator-linebreak': ['error', 'before'],
     // let me shortcut out of forEaches
     'no-useless-return': 'off',
+    // let me create objects without handles
+    'no-new': 'off',
   }
 }

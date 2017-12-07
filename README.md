@@ -10,19 +10,26 @@ npm install ssh2-shell-server
 ```
 
 ## Implement
+The following example creates a shell server listening on port 5151, using the private key provided at `./test_keys/test_key` as the host key.
+
+When a user connects using a client like ssh, the server accepts their authentication.
+
+After the user has authenticated, it sends a friendly message to the user's client, then disconnects.
+
 ```javascript
 const fs = require('fs');
 const { ShellServer, Authenticators } = require('ssh2-shell-server');
 
 const PORT = 5151;
-// assuming you've generated host keys at ./test_keys/test_key
 const keyFile = fs.readFileSync('./test_keys/test_key');
 const server = new ShellServer({
   hostKeys: [ keyFile ],
   port: PORT,
-}, Authenticators.authenticateAny());
+});
 
-server.on('session-created', (session) => {
+server.registerAuthenticator(new Authenticators.AuthenticateAny());
+
+server.on('session-created', ({client, session}) => {
   session.on('stream-initialized', (stream) => {
     stream.write('Welcome to the server!\r\n');
     stream.write('Good talk, see you later.\r\n');
@@ -33,8 +40,10 @@ server.on('session-created', (session) => {
 server.listen().then(() => {
   console.log(`Listening on port ${PORT}...`);
 });
+
 ```
-See [examples](/examples) for more working source code
+
+See [examples](https://github.com/kstafford3/ssh2-shell-server/tree/mater/examples) for more working source code.
 
 ---
 

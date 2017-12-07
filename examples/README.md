@@ -3,7 +3,7 @@
 
 #### To use any of these examples, you will need to generate host keys for the server.
 
-To generate host keys in the examples directory:
+To generate host keys in the examples directory in a unix-like environment:
 ```
 # create a directory for our test keys
 mkdir test_keys

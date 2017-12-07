@@ -22,7 +22,6 @@ server.on('session-created', ({client, session}) => {
   console.log('Session Created');
   session.on('stream-initialized', (stream) => {
     console.log('Stream Initialized');
-    // eslint-disable-next-line no-new
     new EchoShell('The Password Server', session.username, stream);
   });
 });
