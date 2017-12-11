@@ -112,6 +112,13 @@ A `ShellClient` may be passed out of the `ShellServer` as part of the event payl
 
 `ShellSession` is also responsible for managing changes to the client's viewing window, updating the stream's `rows` and `columns` fields.
 
+## Fields
+### `username`
+Contains the username that the client authenticated under.
+
+### `authentication`
+Contains a value from the last Authenticator that succeeded, leading to this session's creation.
+
 ## Events
 
 ### `stream-initialized`
@@ -139,9 +146,11 @@ new AuthenticateByPassword(checkPassword);
 `CheckPassword` method accepts `username`, `password`, and `ctx` as parameters when a client attempts to authenticate.
 These are the authentication parameters provided by the client attempting to authenticate.
 
-`CheckPassword` either returns a `Boolean` or a `Promise` that resolves to a `Boolean`.
-Resolving to `true` will successfully authenticate the client.
-Resolving to `false` will reject this authentication attempt.
+The result of `checkPassword` will be checked for truthiness (If it is a promise, it will resolve first).
+A truthy value will successfully authenticate the client.
+A falsey value will will reject this authentication attempt.
+
+A truthy value will also be passed to the resulting `ShellSession`.
 
 # AuthenticateByPublicKey
 `AuthenticateByPassword` listens for clients connecting with the authentication method 'password'.
@@ -159,17 +168,23 @@ new AuthenticateByPassword(validate, verify)
 `Validate` method accepts `keyAlgorithm`, `keyData`, and `ctx` as parameters.
 This provides a chance to accept or reject the public key based on the key's contents.
 
-`Validate` must return a `Boolean` or a `Promise` that resolves to a `Boolean`.
-Resolving to `true` indicates that the client has succeeded at this step.
-Resolving to `false` indicates that the client has failed this step.
+The result of `validate` will be evaluated for truthiness (If it is a promise, it will resolve first).
+A truthy value indicates that the client has succeeded at this step.
+A falsey value indicates that the client has failed this step.
+
+This is the first step, so a truthy value will lead to the client attemptint to verify.
+This will be handled by the `verify` method.
 
 ## verify(verifier, signature, ctx)
 `Verify` method accepts `verifier`, `signature`, and `ctx` as parameters.
 This provides a chance to accept or reject the public key based on its signature.
 
-`Verify` must return a `Boolean` or a `Promise` that resolves to a `Boolean`.
-Resolving to `true` indicates that the client has succeeded at this step.
-Resolving to `false` indicates that the client has failed this step.
+The result of `verify` will be evaluated for truthiness (If it is a promise, it will resolve first).
+A truthy value indicates that the client has succeeded at this step.
+A falsey value indicates that the client has failed this step.
+
+As this is the last step, a truthy value will indicate that the user has successfully authenticated.
+The returned value will be passed to the resulting `ShellSession`.
 
 A simple implementation of verify would be:
 ```js
