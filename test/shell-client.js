@@ -88,5 +88,26 @@ describe('ShellClient', function() {
       };
       client.emit('authentication', ctx);
     });
+
+    it('should preserve the authentication result when an acceptable authentication method returns a truthful value.', function(done) {
+      const client = new EventEmitter();
+      const authenticationValue = 'not-falsey';
+      const authenticators = {
+        'supported': buildTestAuth('supported', authenticationValue),
+      };
+      var shellClient = new ShellClient(client, authenticators);
+      const ctx = {
+        method: 'supported',
+        accept() {
+          shellClient._authenticationResult.should.equal(authenticationValue);
+          done();
+        },
+        reject(requestedMethods) {
+          this.should.fail('Authentication rejected when acceptance was expected');
+          done();
+        },
+      };
+      client.emit('authentication', ctx);
+    });
   });
 });
