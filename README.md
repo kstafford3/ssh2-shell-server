@@ -24,7 +24,7 @@ When a user connects using a client like ssh, the server accepts their authentic
 
 After the user has authenticated, it sends a friendly message to the user's client, then disconnects.
 
-```javascript
+```js
 const { ShellServer, Authenticators } = require('ssh2-shell-server');
 
 const fs = require('fs');
@@ -62,7 +62,7 @@ The `ShellServer` class manages the ssh2 `Server`. Its primary responsibilities 
 
 ## Constructor
 
-```
+```js
 new ShellServer({
   hostKeys: Array<string>,
   port: number,
